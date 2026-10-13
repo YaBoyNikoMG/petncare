@@ -1,1 +1,103 @@
-
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pet n Care - Learn and care for Kamry</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFF3D1;--card:#fff;--ink:#1F2A44;--mute:#5d6682;--sky:#2F9BEA;--grass:#3FAE63;--coral:#F2593A;--sun:#FFC83D;--line:#f0e2b4;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171D33;--card:#232C4A;--ink:#F5F1E4;--mute:#a9b2cf;--line:#34406a}}
+:root[data-theme="dark"]{--bg:#171D33;--card:#232C4A;--ink:#F5F1E4;--mute:#a9b2cf;--line:#34406a}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:'Fredoka',system-ui,sans-serif;font-size:17px}
+#app{max-width:640px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
+main{flex:1;padding:14px 16px 90px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.top h1{font-size:24px;margin:0;font-weight:700}
+.pill{background:var(--card);border:2px solid var(--line);border-radius:99px;padding:5px 12px;font-weight:600;margin-left:6px}
+.stage{background:linear-gradient(var(--sky) 0 62%,var(--grass) 62%);border-radius:28px;padding:10px 10px 0;text-align:center;position:relative;overflow:hidden}
+.stage svg{width:78%;max-width:280px;display:block;margin:0 auto}
+.gloom{background:linear-gradient(#76829a 0 62%,#667a72 62%)}
+.bubble{background:var(--card);border-radius:18px;padding:8px 14px;display:inline-block;max-width:90%;margin-top:4px;font-weight:500}
+.bar{margin:12px 0 0}.bar b{font-weight:600}
+.track{height:14px;background:var(--line);border-radius:9px;overflow:hidden;margin-top:4px}
+.fill{height:100%;border-radius:9px;transition:width .4s}
+.row{display:flex;gap:10px;margin-top:14px}
+button{font:inherit;font-weight:600;border:0;border-radius:18px;padding:14px;cursor:pointer;color:#fff;flex:1;min-height:52px}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.b1{background:var(--coral)}.b2{background:var(--sky)}.b3{background:var(--grass)}
+.link{background:none;color:var(--mute);text-decoration:underline;font-weight:500;margin-top:12px;flex:none;width:100%}
+.card{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:14px;margin-top:12px}
+.card h2{margin:0 0 6px;font-size:19px}
+.subj{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);color:var(--ink);border:2px solid var(--line);margin-top:10px}
+.subj span{font-size:30px}.subj small{display:block;color:var(--mute);font-weight:400}
+.opt{display:block;width:100%;margin-top:10px;background:var(--card);color:var(--ink);border:3px solid var(--line);text-align:left}
+.opt.ok{border-color:var(--grass);background:#dff5e6;color:#17391f}.opt.no{border-color:var(--coral);background:#fde1da;color:#4a1a10}
+.q{font-size:24px;font-weight:600;margin:8px 0}
+nav{position:sticky;bottom:0;max-width:640px;margin:0 auto;width:100%;display:flex;background:var(--card);border-top:2px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{background:none;color:var(--mute);border-radius:0;font-size:15px}
+nav button[aria-current="true"]{color:var(--coral)}
+.note{font-size:14px;color:var(--mute);margin-top:8px}
+.mb{display:flex;align-items:center;gap:8px;margin-top:8px}.mb .track{flex:1;margin:0}.mb span{width:84px}
+#msg{min-height:26px;text-align:center;margin-top:10px;font-weight:600}
+.sum{background:#fff8e0;color:#3b3210;border-radius:16px;padding:12px;font-weight:500}
+.hop{animation:hop .5s}@keyframes hop{50%{transform:translateY(-14px)}}
+@media (prefers-reduced-motion:reduce){.hop{animation:none}.fill{transition:none}}
+</style></head><body>
+<div id="app"><main id="v"></main><nav id="nav"></nav></div>
+<script>
+const SUB={math:{n:'Math',i:'➕'},eng:{n:'English',i:'📖'},geo:{n:'Geography',i:'🌍'},his:{n:'History',i:'🏛️'},sci:{n:'Science',i:'🔬'}};
+const BANK={
+math:[['7 + 5 = ?',['11','12','13'],1],['6 × 3 = ?',['16','18','21'],1],['12 ÷ 4 = ?',['3','4','6'],0],['15 − 7 = ?',['9','7','8'],2],['8 + 9 = ?',['17','16','18'],0],['5 × 5 = ?',['20','30','25'],2]],
+eng:[['Opposite of "hot"?',['cold','warm','big'],0],['Which word is a verb?',['happy','run','blue'],1],['Plural of "dog"?',['doges','dogs','dog'],1],['Rhymes with "cat"?',['cup','hat','dog'],1],['She ___ happy.',['are','am','is'],2],['Which is a color?',['green','jump','table'],0]],
+geo:[['Capital of South Korea?',['Busan','Seoul','Tokyo'],1],['How many continents?',['5','6','7'],2],['Biggest ocean?',['Pacific','Atlantic','Indian'],0],['Penguins live in...',['Sahara','Antarctica','Amazon'],1],['Capital of Japan?',['Tokyo','Beijing','Osaka'],0],['The Sahara is a...',['sea','forest','desert'],2]],
+his:[['First US president?',['Lincoln','Washington','Jefferson'],1],['Pyramids were built in ancient...',['Egypt','Japan','Brazil'],0],['Who created Hangul?',['King Sejong','Columbus','Napoleon'],0],['Who sailed to America in 1492?',['Newton','Sejong','Columbus'],2],['Ancient Olympics began in...',['Greece','Korea','Canada'],0],['A castle was home to a...',['pilot','king or queen','farmer only'],1]],
+sci:[['Plants need sunlight and...',['candy','water','plastic'],1],['How many legs does an insect have?',['4','6','8'],1],['Water freezes into...',['steam','ice','sand'],1],['We live on the planet...',['Mars','Venus','Earth'],2],['What gives us light by day?',['Moon','Sun','Clouds'],1],['Which is a mammal?',['frog','shark','dog'],2]]};
+const S={coins:10,streak:3,hunger:55,joy:60,away:false,missed:false,done:false,feeds:2,plays:1,tab:'home',quiz:null,msg:'',hop:false,
+st:{math:{r:3,c:11,t:15},eng:{r:2,c:7,t:10},geo:{r:6,c:25,t:30},his:{r:1,c:3,t:5},sci:{r:2,c:8,t:10}}};
+const mood=()=>S.missed?'sad':S.away?'sleepy':S.hunger<30?'hungry':S.joy>=60?'happy':'ok';
+const SAY={sad:'You missed a day... I waited by the door all day. Please learn with me so I feel better.',sleepy:'Zzz... finish a lesson to wake me up!',hungry:'My tummy is rumbling. Can I have a snack?',happy:'Woof! Great job today!',ok:'Hi! Want to learn something together?'};
+function dog(m){
+const E=m==='sad'?36:14;
+const eyes=m==='sad'?`<circle cx="74" cy="92" r="12" fill="#3a2a1a"/><circle cx="126" cy="92" r="12" fill="#3a2a1a"/><circle cx="78" cy="88" r="4.5" fill="#fff"/><circle cx="130" cy="88" r="4.5" fill="#fff"/><path d="M56 82l26-14M144 82l-26-14" stroke="#3a2a1a" stroke-width="5" stroke-linecap="round"/><path d="M66 106q-7 13 0 18q7-5 0-18zM134 106q-7 13 0 18q7-5 0-18z" fill="#7fd0ff"/>`:m==='sleepy'?'<path d="M64 88q10 9 20 0M116 88q10 9 20 0" stroke="#3a2a1a" stroke-width="5" fill="none" stroke-linecap="round"/>':
+`<circle cx="74" cy="88" r="9" fill="#3a2a1a"/><circle cx="126" cy="88" r="9" fill="#3a2a1a"/><circle cx="77" cy="85" r="3" fill="#fff"/><circle cx="129" cy="85" r="3" fill="#fff"/>`+(m==='hungry'?'<path d="M60 70l24 6M140 70l-24 6" stroke="#3a2a1a" stroke-width="4" stroke-linecap="round"/>':'');
+const mouth={sad:'M84 144q16-20 32 0',happy:'M82 126q18 22 36 0',ok:'M86 128q14 10 28 0',hungry:'M86 138q14-14 28 0',sleepy:'M92 130q8 5 16 0'}[m];
+const tongue=m==='happy'?'<path d="M92 134q8 20 16 0z" fill="#ff7b8a"/>':'';
+const z=m==='sleepy'?'<text x="150" y="48" font-size="26" fill="#fff" font-family="Fredoka,sans-serif">z</text><text x="166" y="30" font-size="20" fill="#fff" font-family="Fredoka,sans-serif">z</text>':'';
+return `<svg viewBox="0 0 200 190" role="img" aria-label="Kamry the dog looks ${m}"><ellipse cx="46" cy="76" rx="24" ry="44" fill="#9a5b2e" transform="rotate(${E} 46 76)"/><ellipse cx="154" cy="76" rx="24" ry="44" fill="#9a5b2e" transform="rotate(${-E} 154 76)"/><circle cx="100" cy="102" r="62" fill="#e8b27a"/><ellipse cx="100" cy="122" rx="34" ry="26" fill="#fbe6c8"/>${eyes}<ellipse cx="100" cy="108" rx="13" ry="9" fill="#3a2a1a"/><path d="${mouth}" stroke="#3a2a1a" stroke-width="4" fill="none" stroke-linecap="round"/>${tongue}<rect x="62" y="160" width="76" height="14" rx="7" fill="#F2593A"/><circle cx="100" cy="178" r="8" fill="#FFC83D"/>${z}</svg>`}
+const bar=(l,v,c)=>`<div class="bar"><b>${l}</b><div class="track"><div class="fill" style="width:${v}%;background:${c}"></div></div></div>`;
+function home(){const m=mood();return `<div class="top"><h1>Pet n Care</h1><div><span class="pill">🪙 ${S.coins}</span><span class="pill">🔥 ${S.streak}</span></div></div>
+<div class="stage${m==='sad'?' gloom':''}"><div class="${S.hop?'hop':''}">${dog(m)}</div></div>
+<div style="text-align:center"><div class="bubble">${SAY[m]}</div></div>
+${bar('Tummy',S.hunger,'var(--coral)')}${bar('Happiness',S.joy,'var(--sun)')}
+<div class="row"><button class="b1" onclick="feed()">Feed · 5 🪙</button><button class="b2" onclick="play()">Play · 3 🪙</button></div>
+<div id="msg" aria-live="polite">${S.msg}</div>
+<button class="b3" style="width:100%;margin-top:6px" onclick="tab('learn')">Learn to earn coins</button>
+<button class="link" onclick="skip()">Demo: pretend we skipped a day</button><p class="note" style="text-align:center">Prototype: progress resets when you refresh the page.</p>`}
+function learn(){
+if(S.quiz){const q=S.quiz,it=q.items[q.i];return `<div class="top"><h1>${SUB[q.k].i} ${SUB[q.k].n}</h1><span class="pill">${q.i+1} of ${q.items.length}</span></div><div class="card"><div class="q">${it[0]}</div>${it[1].map((o,j)=>`<button class="opt ${q.p!=null?(j===it[2]?'ok':j===q.p?'no':''):''}" ${q.p!=null?'disabled':''} onclick="ans(${j})">${o}</button>`).join('')}</div><div id="msg" aria-live="polite">${q.p==null?'':q.p===it[2]?'Correct! +2 coins 🎉':'Nice try! The answer is '+it[1][it[2]]}</div>${q.p!=null?`<button class="b3" style="width:100%" onclick="next()">${q.i+1<q.items.length?'Next question':'Finish'}</button>`:''}`}
+if(S.res)return `<div class="top"><h1>Round done!</h1><span class="pill">🪙 ${S.coins}</span></div><div class="card"><h2>${S.res.c} of ${S.res.t} correct</h2><p>You earned <b>${S.res.g} coins</b>${S.res.c===S.res.t?' (with a perfect bonus!)':''}. Kamry is awake and wagging his tail.</p></div><button class="b3" style="width:100%;margin-top:12px" onclick="S.res=null;tab('home')">Go see Kamry</button>`;
+return `<div class="top"><h1>Learn</h1><span class="pill">🪙 ${S.coins}</span></div><p class="note" style="margin:0">Each round has 5 questions. Every right answer earns 2 coins.</p>`+Object.keys(SUB).map(k=>`<button class="subj" onclick="start('${k}')"><span>${SUB[k].i}</span><div>${SUB[k].n}<small>5 questions</small></div></button>`).join('')}
+function parent(){
+const ks=Object.keys(SUB),pct=k=>Math.round(S.st[k].c/S.st[k].t*100),rounds=ks.reduce((a,k)=>a+S.st[k].r,0);
+const top=ks.reduce((a,k)=>S.st[k].r>S.st[a].r?k:a,ks[0]),best=ks.reduce((a,k)=>pct(k)>pct(a)?k:a,ks[0]),weak=ks.reduce((a,k)=>pct(k)<pct(a)?k:a,ks[0]);
+return `<div class="top"><h1>Parent view</h1><span class="pill">This week</span></div>
+<div class="card"><h2>Weekly summary from Kamry</h2><div class="sum">Your child chose <b>${SUB[top].n}</b> most often (${S.st[top].r} rounds) and does best at <b>${SUB[best].n}</b> (${pct(best)}% correct). ${SUB[weak].n} is a little harder right now, so try one round together. Kamry noticed they really enjoy ${SUB[top].n.toLowerCase()} topics.</div>
+<p class="note">Prototype: the AI report is simulated by simple rules. The real app would use an AI model, running on a secure server, to turn activity into insights.</p></div>
+<div class="card"><h2>Accuracy by subject</h2>${ks.map(k=>`<div class="mb"><span>${SUB[k].n}</span><div class="track"><div class="fill" style="width:${pct(k)}%;background:var(--grass)"></div></div><b>${pct(k)}%</b></div>`).join('')}</div>
+<div class="card"><h2>Activity</h2><p style="margin:4px 0">Lesson rounds: <b>${rounds}</b><br>Times fed Kamry: <b>${S.feeds}</b> · Played: <b>${S.plays}</b><br>Current streak: <b>${S.streak} days</b><br>Daily limit: <b>30 minutes</b> (set by parent)</p></div>
+<p class="note">Parents control all data. No free chat with the AI for children.</p>`}
+function render(){document.getElementById('v').innerHTML={home,learn,parent}[S.tab]();
+document.getElementById('nav').innerHTML=[['home','🐶','Home'],['learn','📚','Learn'],['parent','👪','Parent']].map(t=>`<button onclick="tab('${t[0]}')" ${S.tab===t[0]?'aria-current="true"':''}>${t[1]}<br>${t[2]}</button>`).join('')}
+function tab(t){S.tab=t;S.msg='';render();scrollTo(0,0)}
+function say(t){S.msg=t;S.hop=true;render();S.hop=false}
+function feed(){if(S.away)return say('Kamry is too sad to eat. Finish a lesson first!');if(S.coins<5)return say('You need 5 coins. Learn to earn more!');S.coins-=5;S.hunger=Math.min(100,S.hunger+35);S.joy=Math.min(100,S.joy+10);S.feeds++;say('Yum! Kamry loves it.')}
+function play(){if(S.away)return say('Kamry is too sad to play. Finish a lesson first!');if(S.coins<3)return say('You need 3 coins. Learn to earn more!');S.coins-=3;S.joy=Math.min(100,S.joy+25);S.hunger=Math.max(0,S.hunger-10);S.plays++;say('Woof woof! So much fun!')}
+function skip(){S.away=true;S.missed=true;S.joy=10;S.hunger=Math.min(S.hunger,30);S.msg='Kamry is very sad. He missed you! Finish a lesson to cheer him up.';render()}
+function start(k){const items=BANK[k].slice().sort(()=>Math.random()-.5).slice(0,5);S.quiz={k,items,i:0,c:0,p:null};render()}
+function ans(j){const q=S.quiz;q.p=j;if(j===q.items[q.i][2])q.c++;render()}
+function next(){const q=S.quiz;if(q.i+1<q.items.length){q.i++;q.p=null;return render()}
+const g=q.c*2+(q.c===q.items.length?3:0),s=S.st[q.k];s.r++;s.c+=q.c;s.t+=q.items.length;S.coins+=g;S.hunger=Math.max(0,S.hunger-8);
+if(S.missed){S.streak=1;S.missed=false;S.done=true}else if(!S.done){S.streak++;S.done=true}
+S.away=false;S.joy=Math.max(S.joy,50);S.res={c:q.c,t:q.items.length,g};S.quiz=null;render()}
+render();
+</script></body></html>
